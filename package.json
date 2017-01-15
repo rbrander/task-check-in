@@ -2,17 +2,18 @@
   "name": "task-check-in",
   "version": "1.0.0",
   "description": "A task progression tracker",
-  "devDependencies": {
-    "react-scripts": "0.8.5"
-  },
   "dependencies": {
-    "pushstate-server": "^2.1.0",
+    "http-server": "^0.9.0",
     "react": "^15.4.2",
-    "react-dom": "^15.4.2"
+    "react-dom": "^15.4.2",
+    "react-scripts": "0.8.5"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rbrander/task-check-in.git"
+  },
+  "engines": {
+    "node": "6.2.2"
   },
   "keywords": [
     "task",
@@ -20,14 +21,16 @@
     "check-in"
   ],
   "author": "Rob Brander",
-  "license": "",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/rbrander/task-check-in/issues"
   },
   "homepage": "http://taskcheck.in",
   "scripts": {
+    "postinstall": "react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "prod": "http-server build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
