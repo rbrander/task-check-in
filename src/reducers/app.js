@@ -2,6 +2,7 @@ import { LOGIN_USER, LOGOUT_USER } from '../constants/action-types';
 
 const initialState = {
   username: null,
+  tasks: [],
 };
 
 const App = (state = initialState, action = {}) => {

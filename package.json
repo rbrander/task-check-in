@@ -9,6 +9,7 @@
     "react-redux": "^5.0.2",
     "react-scripts": "0.8.5",
     "redux": "^3.6.0",
+    "redux-logger": "^2.7.4",
     "tachyons": "^4.6.1"
   },
   "repository": {
