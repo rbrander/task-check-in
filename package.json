@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A task progression tracker",
   "dependencies": {
-    "http-server": "^0.9.0",
+    "express": "^4.14.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
@@ -11,6 +11,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "tachyons": "^4.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,7 @@
   },
   "keywords": [
     "task",
+    "tasks",
     "check",
     "check-in"
   ],
@@ -34,7 +38,8 @@
     "postinstall": "react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prod": "http-server build",
+    "dev": "nodemon server/index.js",
+    "prod": "node server/index.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
