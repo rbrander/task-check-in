@@ -9,17 +9,26 @@ const bodyParser = require('body-parser');
 // const passwordHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 // if (bcrypt.compareSync(req.body.password, user.password)) ...
 
-// const mongoose = require('mongoose');
-// mongoose.connect('mongodb://localhost/dbname');
-/*
+
+////////////////////////////////////////////////////
+// Database
+
+// Setup
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
+// Connect
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASS;
+mongoose.connect(`mongodb://${dbUser}:${dbPassword}@ds127429.mlab.com:27429/task-check-in`);
+
+// Create model
 const User = mongoose.model('User', new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   name: String,
-  username: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String
-}));
-*/
+}), 'users');
 
 
 ////////////////////////////////////////////////////
@@ -41,38 +50,34 @@ app.use(sessions({
 
 
 app.post('/api/signup', (req, res) => {
-  console.log('signup!');
-  console.log({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password
+  // Check if the user exists (by email)
+  User.findOne({ email: req.body.email}, function(err, user) {
+    if (err) {
+      console.error('Error: ', err);
+      res.sendStatus(500);
+    } else {
+      // if user not found...
+      if (!user) {
+        // Create the user
+        const newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password
+        });
+        // Save the user
+        newUser.save((err) => {
+          if (err) console.error('Error creating user', err.message);
+          else {
+            // TODO: login the user
+            res.redirect('/');
+          }
+        })
+      } else {
+        res.json({ error: 'email already exists' });
+        res.sendStatus(400);        
+      }
+    }
   });
-
-  res.redirect('/');
-
-  // res.sendStatus(200);
-  
-  /*
-  const user = new User({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
-  })
-
-  // TODO: check if the user already exists
-
-  user.save(function (err){
-    if (err)
-      console.error('error creating user');
-    else
-      res.redirect('/home');
-  })
-
-  // data POSTed is in req.body
-  res.end();
-  // res.sendStatus(200);
-  */
 });
 
 /*
