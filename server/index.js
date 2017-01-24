@@ -69,12 +69,11 @@ app.post('/api/signup', (req, res) => {
           if (err) console.error('Error creating user', err.message);
           else {
             // TODO: login the user
-            res.redirect('/');
+            res.json({});
           }
         })
       } else {
-        res.json({ error: 'email already exists' });
-        res.sendStatus(400);        
+        res.status(400).json({ error: 'email already exists' });
       }
     }
   });
