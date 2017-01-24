@@ -7,10 +7,14 @@ import {
 } from '../constants/action-types';
 import { apiPost } from '../utils';
 
-const login = (username, password) => ({
-  type: LOGIN_USER,
-  payload: { username, password },
-});
+const login = (email, password) => (dispatch) => {
+  dispatch({
+    type: LOGIN_USER,
+    payload: { email, password }
+  });
+  // TODO: hookup API for login
+  // TODO: change LOGIN_USER to have three actions: pending, success, error
+};
 
 const logout = () => ({ type: LOGOUT_USER });
 

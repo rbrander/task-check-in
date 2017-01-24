@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Header = ({ username, isLoggedIn, login, logout }) => (
   <div className="bg-light-blue cf">
     <div className="f3 fl ma2">
-      <a href="/" className="no-underline black">Task Check-in</a>
+      <Link to="/" className="no-underline black">Task Check-in</Link>
     </div>
     <div className="f6 fr ma3">
     { !isLoggedIn ? (
       <span>
-        <a href="#" onClick={() => login('Anonymous')}>Login</a>
+        <Link to="/login">Login</Link>
         <span> | </span>
-        <a href="#">Sign Up</a>
+        <Link to="/signup">Sign Up</Link>
       </span>
       ) : (
       <span>
@@ -25,9 +26,8 @@ const Header = ({ username, isLoggedIn, login, logout }) => (
 );
 
 Header.propTypes = {
-  username: React.PropTypes.string,
+  username: React.PropTypes.string, // TODO: convert this to 'name'
   isLoggedIn: React.PropTypes.bool.isRequired,
-  login: React.PropTypes.func.isRequired,
   logout: React.PropTypes.func.isRequired,
 };
 
