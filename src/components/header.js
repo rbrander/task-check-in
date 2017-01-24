@@ -2,7 +2,9 @@ import React from 'react';
 
 const Header = ({ username, isLoggedIn, login, logout }) => (
   <div className="bg-light-blue cf">
-    <div className="f3 fl ma2">Task Check-in</div>
+    <div className="f3 fl ma2">
+      <a href="/" className="no-underline black">Task Check-in</a>
+    </div>
     <div className="f6 fr ma3">
     { !isLoggedIn ? (
       <span>
