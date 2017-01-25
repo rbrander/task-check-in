@@ -1,5 +1,7 @@
 import {
-  LOGIN_USER,
+  LOGIN_USER_PENDING,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
   LOGOUT_USER,
   SIGNUP_PENDING,
   SIGNUP_SUCCESS,
@@ -8,12 +10,10 @@ import {
 import { apiPost } from '../utils';
 
 const login = (email, password) => (dispatch) => {
-  dispatch({
-    type: LOGIN_USER,
-    payload: { email, password }
-  });
-  // TODO: hookup API for login
-  // TODO: change LOGIN_USER to have three actions: pending, success, error
+  dispatch({ type: LOGIN_USER_PENDING });
+  apiPost('/api/login', { email, password })
+    .then(userProfile => dispatch({ type: LOGIN_USER_SUCCESS, payload: userProfile }))
+    .catch(error => dispatch({ type: LOGIN_USER_ERROR, payload: error }));
 };
 
 const logout = () => ({ type: LOGOUT_USER });

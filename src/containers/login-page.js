@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AuthActions from '../actions/auth';
+import LoginForm from '../components/login-form';
 
 const mapStateToProps = (state) => ({});
 const mapDispatchToProps = (dispatch) => ({
@@ -10,8 +11,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 class LoginPage extends React.Component {
   render() {
+    const { login } = this.props;
     return (
-      <h1>login page!!</h1>
+      <div className="tl dib pa2">
+        <h2 className="">Login</h2>
+        <LoginForm login={login} />
+      </div>
     )
   }
 }

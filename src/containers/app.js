@@ -5,9 +5,9 @@ import AuthActions from '../actions/auth';
 import TaskList from '../components/task-list';
 
 const mapStateToProps = (state) => ({
-  username: state.App.username,
-  isLoggedIn: (state.App.username !== null),
-  tasks: state.App.tasks,
+  userName: state.User.name,
+  isLoggedIn: (state.User.name !== null && state.User.name.length > 0),
+  tasks: state.Tasks.list,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -15,29 +15,45 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class App extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const { isLoggedIn } = this.props;
+    // const justLoggedOut = (isLoggedIn && !nextProps.isLoggedIn);
+    const justLoggedIn = (!isLoggedIn && nextProps.isLoggedIn);
+    if (justLoggedIn) {
+      // redirect the user home
+      nextProps.router.push('/');
+    }
+  }
   render() {
     // The content is determiend by logged in state
     // When not logged in, show instructions on joining
     // When logged in, show a list of their goals, and create buttons
-    const { username, isLoggedIn, logout, tasks, children } = this.props;
+    const { userName, isLoggedIn, logout, tasks, children, location } = this.props;
     const defaultContent = (
       <div className="tc">
         <h1>Task Check-in</h1>
         <div className="f5 mb4">A task progression tracker</div>
-        {(isLoggedIn ? <TaskList tasks={tasks} /> : <div />)}
+        { (isLoggedIn ? <TaskList tasks={tasks} /> : null) }
       </div>
     );
     return (
       <div>
-        <Header username={username} isLoggedIn={isLoggedIn} logout={logout} />
-        { children || defaultContent }
+        <Header
+          userName={ userName }
+          isLoggedIn={ isLoggedIn }
+          logout={ logout }
+          location={ location }
+        />
+        <div className="pa2 tc">
+          { children || defaultContent }
+        </div>
       </div>
     );
   }
 };
 
 App.propTypes = {
-  username: React.PropTypes.string, // TODO: convert this to email
+  userName: React.PropTypes.string, // TODO: convert this to email
   isLoggedIn: React.PropTypes.bool.isRequired,
   logout: React.PropTypes.func.isRequired,
   tasks: React.PropTypes.array.isRequired,

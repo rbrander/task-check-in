@@ -95,7 +95,7 @@ const checkSession = (req, res) => {
 }
 
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
   User.findOne({ email: req.body.email}, function(err, user) {
     if (!user) {
       res.sendStatus(404);
@@ -111,6 +111,28 @@ app.post('/login', (req, res) => {
 
 */
 
+app.post('/api/login', (req, res) => {
+  const { email, password } = req.body;
+  console.log('login(); email =', email, 'password =', password);
+  User.findOne({ email }, (err, user) => {
+    if (!user) {
+      console.log('user not found');
+      res.sendStatus(404); // 404 - not found
+    }
+    else {
+      console.log("user found, now let's see if their password is cool");
+      if (user.password === password) {
+        console.log("yep, they're legit! :)");
+        res.json({ name: user.name, email: user.email });
+      }
+      else {
+        console.log('nope... wrong password');
+        res.sendStatus(401); // 401 - unauthorized
+      }
+    }
+  });
+});
+
 
 app.get('/api/logout', (req, res) => {
   /*
@@ -120,7 +142,8 @@ app.get('/api/logout', (req, res) => {
   res.redirect('/');
 });
 
-
+// catch all route
+app.get('/*/', (req, res) => res.redirect('/'));
 
 
 const server = app.listen(process.env.PORT || 8080, () => {
