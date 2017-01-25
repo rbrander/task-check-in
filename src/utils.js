@@ -3,11 +3,13 @@
 export const apiGet = (url) =>
   fetch(url, {
     method: 'GET',
-    redirect: 'follow',
-    headers: new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    })
+    headers: new Headers({ 'Accept': 'application/json' })
+  }).then(response => {
+    if (response.status < 400) {
+      return response.json();
+    } else {
+      throw response.statusText;
+    }
   });
 
 export const apiPost = (url, jsonData) => {

@@ -6,6 +6,11 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
     <div className="f3 fl ma2">
       <Link to="/" className="no-underline black">Task Check-in</Link>
     </div>
+    { isLoggedIn ? (
+      <div className="ml4 fl f4 mt4">
+        <Link to="/tasks" className="no-underline black">Tasks</Link>
+      </div>) : null
+    }
     <div className="f6 fr ma3">
       <span>
         { isLoggedIn ? (

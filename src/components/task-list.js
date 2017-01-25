@@ -1,8 +1,10 @@
 import React from 'react';
+import Task from './task';
 
 const TaskList = ({ tasks }) => (
   <div>
-    <div>TaskList</div>
+    <div>Task List</div>
+    { tasks.map(task => <Task key={ task.id } id={ task.id } name={ task.name } />) }
   </div>
 );
 

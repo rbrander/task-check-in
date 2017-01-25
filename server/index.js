@@ -144,6 +144,13 @@ app.get('/api/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.get('/api/tasks', (req, res) => {
+  res.json([
+    { id: '1', name: 'My First Task' },
+    { id: '2', name: 'My second task!' },
+  ]);
+})
+
 // catch all route
 app.get('/*/', (req, res) => res.redirect('/'));
 
