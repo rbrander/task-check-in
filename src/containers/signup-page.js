@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import SignupForm from '../components/signup-form';
 import AuthActions from '../actions/auth';
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  hasError: !!state.User.signupError,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   signup: (name, email, password) =>
     dispatch(AuthActions.signup(name, email, password)),
@@ -11,10 +14,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class SignupPage extends React.Component {
   render() {
-    const { signup } = this.props;
+    const { signup, hasError } = this.props;
     return (
-      <div>
-        <h1>Sign-up to Task Check-in</h1>
+      <div className="tl dib pa2">
+        <h2>Sign-up</h2>
+        { hasError ? (<div className="red">An account already exists for that email</div>) : null }
         <SignupForm signup={signup} />
       </div>
     );

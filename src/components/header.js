@@ -20,7 +20,11 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
         }
         <span> | </span>
         { isLoggedIn ? (
-            <button type="button" onClick={() => logout()}>Logout</button>
+            <button
+              style={{ background: 'transparent', border: 'none', padding: 0 }}
+              type="button"
+              onClick={() => logout()}
+            >Logout</button>
           ) : (
             <Link to="/signup" className="no-underline black">Sign Up</Link>
           )

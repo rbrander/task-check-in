@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import AuthActions from '../actions/auth';
 import LoginForm from '../components/login-form';
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+  hasError: !!state.User.error,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   login: (email, password) =>
     dispatch(AuthActions.login(email, password)),
@@ -11,10 +14,11 @@ const mapDispatchToProps = (dispatch) => ({
 
 class LoginPage extends React.Component {
   render() {
-    const { login } = this.props;
+    const { login, hasError } = this.props;
     return (
       <div className="tl dib pa2">
-        <h2 className="">Login</h2>
+        <h2>Login</h2>
+        { hasError ? (<div className="red">Invalid email or password</div>) : null }
         <LoginForm login={login} />
       </div>
     )

@@ -53,7 +53,7 @@ app.post('/api/signup', (req, res) => {
   // Check if the user exists (by email)
   User.findOne({ email: req.body.email}, function(err, user) {
     if (err) {
-      console.error('Error: ', err);
+      console.error('User findOne Error: ', err);
       res.sendStatus(500);
     } else {
       // if user not found...
@@ -61,19 +61,20 @@ app.post('/api/signup', (req, res) => {
         // Create the user
         const newUser = new User({
           name: req.body.name,
-          email: req.body.email,
+          email: req.body.email.toLowerCase(),
           password: req.body.password
         });
         // Save the user
+        console.log(newUser.name, newUser.email);
         newUser.save((err) => {
           if (err) console.error('Error creating user', err.message);
           else {
             // TODO: login the user
-            res.json({});
+            res.json({ name: newUser.name, email: newUser.email });
           }
         })
       } else {
-        res.status(400).json({ error: 'email already exists' });
+        res.status(400).json('email already exists');
       }
     }
   });
@@ -117,7 +118,9 @@ app.post('/api/login', (req, res) => {
   User.findOne({ email }, (err, user) => {
     if (!user) {
       console.log('user not found');
-      res.sendStatus(404); // 404 - not found
+      // res.sendStatus(404); // 404 - not found
+      // For security reasons, it's best to avoid telling the user the account doesn't exist
+      res.sendStatus(401); // instead pretend it's just the wrong password
     }
     else {
       console.log("user found, now let's see if their password is cool");

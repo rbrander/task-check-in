@@ -23,7 +23,7 @@ export const apiPost = (url, jsonData) => {
     if (response.status < 400) {
       return response.json();
     } else {
-      throw response;
+      throw response.statusText;
     }
   });
 };
