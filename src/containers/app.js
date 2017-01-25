@@ -32,7 +32,7 @@ class App extends React.Component {
     // The content is determiend by logged in state
     // When not logged in, show instructions on joining
     // When logged in, show a list of their goals, and create buttons
-    const { userName, isLoggedIn, logout, tasks, children, location } = this.props;
+    const { userName, isLoggedIn, logout, children, location } = this.props;
     const defaultContent = (
       <div className="tc">
         <h1>Task Check-in</h1>

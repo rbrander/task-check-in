@@ -30,6 +30,15 @@ const User = mongoose.model('User', new mongoose.Schema({
   password: String
 }), 'users');
 
+const Task = mongoose.model('Task', new mongoose.Schema({
+  id: mongoose.Schema.ObjectId,
+  name: String,
+  description: String,
+  startDate: Date,
+  endDate: Date,
+  goal: Number
+}), 'tasks');
+
 
 ////////////////////////////////////////////////////
 // Middleware
@@ -67,8 +76,10 @@ app.post('/api/signup', (req, res) => {
         // Save the user
         console.log(newUser.name, newUser.email);
         newUser.save((err) => {
-          if (err) console.error('Error creating user', err.message);
-          else {
+          if (err) {
+            console.error('Error creating user', err.message);
+            res.sendStatus(500);
+          } else {
             // TODO: login the user
             res.json({ name: newUser.name, email: newUser.email });
           }
@@ -145,11 +156,36 @@ app.get('/api/logout', (req, res) => {
 });
 
 app.get('/api/tasks', (req, res) => {
+  // TODO: add a filter for userid
+  Task.find({}, function(err, taskList) {
+    if (err) {
+      console.error('User findOne Error: ', err);
+      res.sendStatus(500);
+    } else if (!taskList) {
+      res.json([]);
+    } else {
+      res.json(taskList);
+    }
+  });
+
+/*
   res.json([
     { id: '1', name: 'My First Task' },
     { id: '2', name: 'My second task!' },
   ]);
-})
+  */
+});
+
+app.post('/api/tasks', (req, res) => {
+  // body should have: name, description, startDate, endDate,
+  const { name, description, startDate, endDate, goal } = req.body;
+  const newTask = new Task(req.body);
+  newTask.save((err) => {
+    if (err) console.error('Error creating user', err.message);
+    else
+      res.json(newTask);
+  });
+});
 
 // catch all route
 app.get('/*/', (req, res) => res.redirect('/'));
