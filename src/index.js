@@ -13,7 +13,12 @@ import './index.css';
 import 'tachyons';
 
 const logger = createLogger();
-const store = createStore(rootReducer, applyMiddleware(logger, reduxThunk));
+const store = createStore(rootReducer, 
+  (process.env.NODE_ENV === 'development' ? 
+    applyMiddleware(logger, reduxThunk) :
+    applyMiddleware(reduxThunk)
+  )
+);
 
 ReactDOM.render(
   <Provider store={store}>

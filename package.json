@@ -40,8 +40,8 @@
   "homepage": "http://taskcheck.in",
   "scripts": {
     "postinstall": "react-scripts build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_ENV=development react-scripts start",
+    "build": "NODE_ENV=production react-scripts build",
     "dev": "nodemon server/index.js",
     "prod": "node server/index.js",
     "test": "react-scripts test --env=jsdom",

@@ -114,7 +114,6 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
-  console.log('login(); email =', email, 'password =', password);
   User.findOne({ email }, (err, user) => {
     if (!user) {
       console.log('user not found');
