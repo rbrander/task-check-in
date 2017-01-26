@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs');
 
 // Setup
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise; // mongoose's mpromise is deprecated
 
 // Connect
 const dbUser = process.env.DB_USER;
@@ -72,7 +72,6 @@ app.post('/api/signup', (req, res) => {
           password: passwordHash,
         });
         // Save the user
-        console.log(newUser.name, newUser.email);
         newUser.save((err) => {
           if (err) {
             console.error('Error creating user', err.message);
@@ -125,19 +124,15 @@ app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email }, (err, user) => {
     if (!user) {
-      console.log('user not found');
       // res.sendStatus(404); // 404 - not found
       // For security reasons, it's best to avoid telling the user the account doesn't exist
       res.sendStatus(401); // instead pretend it's just the wrong password
-    }
-    else {
-      console.log("user found, now let's see if their password is cool");
+    } else {
+      // Now that we have a user record, check the password
       if (bcrypt.compareSync(password, user.password)) {
-        console.log("yep, they're legit! :)");
         res.json({ name: user.name, email: user.email });
       }
       else {
-        console.log('nope... wrong password');
         res.sendStatus(401); // 401 - unauthorized
       }
     }
@@ -170,9 +165,10 @@ app.get('/api/tasks', (req, res) => {
 app.post('/api/task/create', (req, res) => {
   const newTask = new Task(req.body);
   newTask.save((err) => {
-    if (err) console.error('Error creating user', err.message);
-    else {
-      console.log('successfully saved new task: ', newTask);
+    if (err) {
+      console.error('Error creating user', err.message);
+      res.sendStatus(500);
+    } else {
       res.json(newTask);
     }
   });

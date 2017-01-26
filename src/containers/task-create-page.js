@@ -20,7 +20,11 @@ class TaskCreatePage extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     // Redirect user to the task list upon successful creation of a new task
-    if (this.props.newTask === {} && nextProps.newTask !== {}) {
+    const hasNewTask = (
+      (Object.keys(this.props.newTask).length === 0) &&
+      (Object.keys(nextProps.newTask).length > 0)
+    );
+    if (hasNewTask) {
       this.props.router.push('/tasks');
     }
   }

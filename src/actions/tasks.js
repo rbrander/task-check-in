@@ -46,8 +46,16 @@ const createTask = (task) => (dispatch) => {
   dispatch({ type: CREATE_TASK_PENDING });
   apiPost('/api/task/create', task)
     .then(task => dispatch({ type: CREATE_TASK_SUCCESS, payload: task }))
-    .then(() => dispatch(getTasks()))
-    .catch(error => dispatch({ type: CREATE_TASK_ERROR, payload: error }))
+    // .then(() => dispatch(getTasks()))
+    .catch(error => {
+      if (process.env.NODE_ENV === 'development') {
+        return dispatch({ type: CREATE_TASK_SUCCESS, payload: { 
+          _id: ~~(Math.random() * 999) + 5, name: 'booga' 
+        } });
+      } else {
+        return dispatch({ type: CREATE_TASK_ERROR, payload: error });
+      }
+    })
 }
 
 export default {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DECIMAL_RADIX } from '../constants';
 
-const Calendar = ({month, year}) => {
+const Calendar = ({ month, year, completedDays }) => {
   // make a date object for the first day of the given month/year
   const date = new Date(year, month - 1, 1);
   const today = new Date();
@@ -9,7 +9,6 @@ const Calendar = ({month, year}) => {
     (today.getMonth() === date.getMonth()) &&
     (today.getFullYear() === date.getFullYear())
   );
-  console.log('isTodayVisible =', isTodayVisible, today.getDate());
 
   // get the day of the week for the first day of the month
   const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday ... 6 = Saturday
@@ -37,8 +36,10 @@ const Calendar = ({month, year}) => {
 
   // print the calendar in the console
   const monthName = date.toDateString().split(' ')[1];
+  /*
   console.log('Calendar for ' + monthName +' ' + year);
   weeks.forEach(week => console.log(week.join(' ')));
+  */
 
   // Rendering
   // Calculate the percentage of the width each day will hold
@@ -89,6 +90,7 @@ const Calendar = ({month, year}) => {
 Calendar.propTypes = {
   month: React.PropTypes.number.isRequired, // value is between 1 and 12
   year: React.PropTypes.number.isRequired,
+  completedDays: React.PropTypes.array,
 };
 
 export default Calendar;
