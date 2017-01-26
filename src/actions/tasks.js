@@ -8,9 +8,9 @@ import {
 } from '../constants/action-types';
 import { apiGet, apiPost } from '../utils';
 
-const getTasks = () => (dispatch) => {
+const getTasks = () => (dispatch, getState) => {
   dispatch({ type: GET_TASKS_PENDING });
-  apiGet('/api/tasks')
+  apiGet('/api/tasks?owner_id=' + getState().User._id)
     .then(tasks => dispatch({ type: GET_TASKS_SUCCESS, payload: tasks }))
     .catch(error => {
       if (process.env.NODE_ENV === 'development')
@@ -42,15 +42,15 @@ const getTasks = () => (dispatch) => {
     });
 };
 
-const createTask = (task) => (dispatch) => {
+const createTask = (task) => (dispatch, getState) => {
   dispatch({ type: CREATE_TASK_PENDING });
-  apiPost('/api/task/create', task)
+  const data = Object.assign({}, task, { owner_id: getState().User._id });
+  apiPost('/api/task/create', data)
     .then(task => dispatch({ type: CREATE_TASK_SUCCESS, payload: task }))
-    // .then(() => dispatch(getTasks()))
     .catch(error => {
       if (process.env.NODE_ENV === 'development') {
-        return dispatch({ type: CREATE_TASK_SUCCESS, payload: { 
-          _id: ~~(Math.random() * 999) + 5, name: 'booga' 
+        return dispatch({ type: CREATE_TASK_SUCCESS, payload: {
+          _id: ~~(Math.random() * 999) + 5, name: 'booga'
         } });
       } else {
         return dispatch({ type: CREATE_TASK_ERROR, payload: error });

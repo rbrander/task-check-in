@@ -9,6 +9,7 @@ import {
 } from '../constants/action-types';
 
 const initialState = {
+  _id: '',
   name: '',
   email: '',
   isPending: false, // shared between signup and login
@@ -35,9 +36,7 @@ const userReducer = (state = initialState, action = {}) => {
       });
     case SIGNUP_SUCCESS: // upon signup, the user will be logged in, and have userProfile
     case LOGIN_USER_SUCCESS:
-      return Object.assign({}, state, {
-        name: action.payload.name,
-        email: action.payload.email,
+      return Object.assign({}, state, action.payload, {
         isPending: false,
       });
     case LOGIN_USER_ERROR:

@@ -17,7 +17,7 @@ const login = (email, password) => (dispatch) => {
       if (process.env.NODE_ENV === 'development')
         dispatch({
           type: LOGIN_USER_SUCCESS,
-          payload: { name: 'Anonymous', email: 'an@an.an' },
+          payload: { _id: 'aN0nYM0us', name: 'Anonymous', email: 'an@an.an' },
         });
       else
         dispatch({ type: LOGIN_USER_ERROR, payload: error });

@@ -28,6 +28,7 @@ const User = mongoose.model('User', new mongoose.Schema({
 
 const Task = mongoose.model('Task', new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
+  owner_id: mongoose.Schema.ObjectId,
   name: String,
   description: String,
   progress: String,
@@ -42,10 +43,6 @@ const Task = mongoose.model('Task', new mongoose.Schema({
 
 app.use(express.static('./build'));
 app.use(bodyParser.json());
-app.use((req, res, next) => {
-  console.log('==> Connection from ', req.ip);
-  next();
-});
 
 /*
 app.use(sessions({
@@ -82,7 +79,11 @@ app.post('/api/signup', (req, res) => {
             res.sendStatus(500);
           } else {
             // TODO: login the user
-            res.json({ name: newUser.name, email: newUser.email });
+            let clonedUser = Object.assign({}, newUser);
+            delete clonedUser.password;
+            delete clonedUser.__v;
+            res.json(clonedUser);
+            //res.json({ name: newUser.name, email: newUser.email });
           }
         })
       } else {
@@ -134,7 +135,12 @@ app.post('/api/login', (req, res) => {
     } else {
       // Now that we have a user record, check the password
       if (bcrypt.compareSync(password, user.password)) {
-        res.json({ name: user.name, email: user.email });
+        // remove the password before sending
+        let clonedUser = JSON.parse(JSON.stringify(user));
+        delete clonedUser.password;
+        delete clonedUser.__v;
+        res.json(clonedUser);
+        // res.json({ _id: user._id, name: user.name, email: user.email });
       }
       else {
         res.sendStatus(401); // 401 - unauthorized
@@ -154,9 +160,9 @@ app.get('/api/logout', (req, res) => {
 
 app.get('/api/tasks', (req, res) => {
   // TODO: add a filter for userid
-  Task.find({}, function(err, taskList) {
+  Task.find({ owner_id: req.query.owner_id }, function(err, taskList) {
     if (err) {
-      console.error('User findOne Error: ', err);
+      console.error('Task find Error: ', err);
       res.sendStatus(500);
     } else if (!taskList) {
       res.json([]);
