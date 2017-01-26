@@ -42,6 +42,10 @@ const Task = mongoose.model('Task', new mongoose.Schema({
 
 app.use(express.static('./build'));
 app.use(bodyParser.json());
+app.use((req, res, next) => {
+  console.log('==> Connection from ', req.ip);
+  next();
+});
 
 /*
 app.use(sessions({
