@@ -5,6 +5,8 @@ import App from './containers/app';
 import Signup from './containers/signup-page';
 import Login from './containers/login-page';
 import Tasks from './containers/tasks-page';
+import TaskView from './containers/task-view-page';
+import TaskCreate from './containers/task-create-page';
 
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
@@ -33,6 +35,8 @@ ReactDOM.render(
         <Route path="signup" component={Signup} />
         <Route path="login" component={Login} />
         <Route path="tasks" component={Tasks} />
+        <Route path="task/view/:id" component={TaskView} />
+        <Route path="task/create" component={TaskCreate} />
       </Route>
     </Router>
   </Provider>,

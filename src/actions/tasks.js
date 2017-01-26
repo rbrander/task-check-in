@@ -18,7 +18,7 @@ const getTasks = () => (dispatch) => {
           type: GET_TASKS_SUCCESS,
           payload: [
             {
-              id: 1,
+              _id: '1',
               name: 'My first task',
               description: '...and then there was one.',
               progress: 'not yet started',
@@ -27,7 +27,7 @@ const getTasks = () => (dispatch) => {
               goal: '30 days',
             },
             {
-              id: 2,
+              _id: '2',
               name: 'My second task',
               description: 'blah blah blah',
               progress: 'not yet started',

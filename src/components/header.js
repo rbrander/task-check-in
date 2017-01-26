@@ -7,8 +7,11 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
       <Link to="/" className="no-underline black">Task Check-in</Link>
     </div>
     { isLoggedIn ? (
-      <div className="ml4 fl f4 mt4">
-        <Link to="/tasks" className="no-underline black">Tasks</Link>
+      <div className="ml4 fl f4">
+        <ul className="list mt0">
+          <li className="fl pa2 ma1 ba"><Link to="/tasks" className="no-underline black">Tasks</Link></li>
+          <li className="fl pa2 ma1 ba"><Link to="/task/create" className="no-underline black">New Task</Link></li>
+        </ul>
       </div>) : null
     }
     <div className="f6 fr ma3">

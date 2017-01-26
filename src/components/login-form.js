@@ -31,9 +31,9 @@ class LoginForm extends React.Component {
           <input
             type="text"
             name="email"
-            value={email}
-            onChange={this.onEmailChange}
-            ref={(input) => { this.emailInput = input; }}
+            value={ email }
+            onChange={ this.onEmailChange }
+            ref={ (input) => { this.emailInput = input } }
           />
         </div>
         <div className="pa1 mt1"><label>Password</label></div>
@@ -41,8 +41,8 @@ class LoginForm extends React.Component {
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={this.onPasswordChange}
+            value={ password }
+            onChange={ this.onPasswordChange }
           />
         </div>
         <div className="pa1 mt1"><button type="submit">Login</button></div>

@@ -34,6 +34,7 @@ const Task = mongoose.model('Task', new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   name: String,
   description: String,
+  progress: String,
   startDate: Date,
   endDate: Date,
   goal: Number
@@ -167,23 +168,18 @@ app.get('/api/tasks', (req, res) => {
       res.json(taskList);
     }
   });
-
-/*
-  res.json([
-    { id: '1', name: 'My First Task' },
-    { id: '2', name: 'My second task!' },
-  ]);
-  */
 });
 
 app.post('/api/tasks', (req, res) => {
-  // body should have: name, description, startDate, endDate,
-  const { name, description, startDate, endDate, goal } = req.body;
+  console.log('/api/tasks');
+  console.log('req.body =', req.body);
   const newTask = new Task(req.body);
   newTask.save((err) => {
     if (err) console.error('Error creating user', err.message);
-    else
+    else {
+      console.log('successfully saved new task: ', newTask);
       res.json(newTask);
+    }
   });
 });
 

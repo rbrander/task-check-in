@@ -13,6 +13,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class App extends React.Component {
+  static propTypes = {
+    userName: React.PropTypes.string, // TODO: convert this to email
+    isLoggedIn: React.PropTypes.bool.isRequired,
+    logout: React.PropTypes.func.isRequired,
+    children: React.PropTypes.node,
+  }
+
   componentWillReceiveProps(nextProps) {
     const { isLoggedIn } = this.props;
 
@@ -28,6 +35,7 @@ class App extends React.Component {
     }
     // TODO: if they try to access a secured page, redirect to login (e.g. /tasks )
   }
+
   render() {
     // The content is determiend by logged in state
     // When not logged in, show instructions on joining
@@ -53,13 +61,6 @@ class App extends React.Component {
       </div>
     );
   }
-};
-
-App.propTypes = {
-  userName: React.PropTypes.string, // TODO: convert this to email
-  isLoggedIn: React.PropTypes.bool.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

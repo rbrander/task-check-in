@@ -1,11 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const TaskListItem = ({ task }) => (
   <tr data-id={ task.id }>
-    <td>{ task.name }</td>
+    <td><Link to={`/task/view/${task._id}`}>{ task.name }</Link></td>
+    <td>{ task.description }</td>
     <td>{ task.progress }</td>
     <td>{ task.startDate }</td>
     <td>{ task.endDate }</td>
+    <td>{ task.lastUpdated }</td>
   </tr>
 );
 
