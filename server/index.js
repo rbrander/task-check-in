@@ -3,12 +3,8 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
 // const sessions = require('client-sessions');
-
-// const bcrypt = require('bcryptjs');
-// const passwordHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
-// if (bcrypt.compareSync(req.body.password, user.password)) ...
-
 
 ////////////////////////////////////////////////////
 // Database
@@ -69,10 +65,11 @@ app.post('/api/signup', (req, res) => {
       // if user not found...
       if (!user) {
         // Create the user
+        const passwordHash = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
         const newUser = new User({
           name: req.body.name,
           email: req.body.email.toLowerCase(),
-          password: req.body.password
+          password: passwordHash,
         });
         // Save the user
         console.log(newUser.name, newUser.email);
@@ -135,7 +132,7 @@ app.post('/api/login', (req, res) => {
     }
     else {
       console.log("user found, now let's see if their password is cool");
-      if (user.password === password) {
+      if (bcrypt.compareSync(password, user.password)) {
         console.log("yep, they're legit! :)");
         res.json({ name: user.name, email: user.email });
       }

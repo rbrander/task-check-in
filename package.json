@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A task progression tracker",
   "dependencies": {
+    "bcryptjs": "^2.4.0",
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
     "mongoose": "^4.7.8",
