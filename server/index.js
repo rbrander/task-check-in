@@ -167,9 +167,7 @@ app.get('/api/tasks', (req, res) => {
   });
 });
 
-app.post('/api/tasks', (req, res) => {
-  console.log('/api/tasks');
-  console.log('req.body =', req.body);
+app.post('/api/task/create', (req, res) => {
   const newTask = new Task(req.body);
   newTask.save((err) => {
     if (err) console.error('Error creating user', err.message);

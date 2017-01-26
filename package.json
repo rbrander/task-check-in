@@ -25,7 +25,8 @@
     "url": "git+https://github.com/rbrander/task-check-in.git"
   },
   "engines": {
-    "node": "6.2.2"
+    "node": "6.2.2",
+    "npm": "3.10.3"
   },
   "keywords": [
     "task",

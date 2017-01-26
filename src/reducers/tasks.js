@@ -20,6 +20,7 @@ const tasksReducer = (state = initialState, action = {}) => {
       return Object.assign({}, state, {
         isPending: true,
         error: '',
+        newTask: {},
       });
     case CREATE_TASK_SUCCESS:
       return Object.assign({}, state, {

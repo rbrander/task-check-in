@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Calendar from '../components/calendar';
 
 const mapStateToProps = (state) => ({
   tasks: state.Tasks.list,
@@ -20,12 +21,14 @@ class TaskViewPage extends React.Component {
       return (<div className="red">Error finding task</div>);
     }
     const task = foundTask[0];
+    const now = new Date();
+    const currMonth = now.getMonth() + 1;
+    const currYear = now.getFullYear();
     return (
-      <div className="tc dib pa2 ma1">
-        <div>Task View</div>
-        <hr />
-        <div className="tl">
-          <div><strong>id:</strong> { task._id }</div>
+      <div className="tc dib">
+        <div className="f2 pa3">{ task.name }</div>
+        <Calendar month={ currMonth } year={ currYear } />
+        <div className="tl mv4">
           <div><strong>Name:</strong> { task.name }</div>
           <div><strong>Description:</strong> { task.description }</div>
           <div><strong>Progress:</strong> { task.progress }</div>

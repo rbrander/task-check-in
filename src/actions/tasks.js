@@ -44,7 +44,7 @@ const getTasks = () => (dispatch) => {
 
 const createTask = (task) => (dispatch) => {
   dispatch({ type: CREATE_TASK_PENDING });
-  apiPost('/api/tasks', task)
+  apiPost('/api/task/create', task)
     .then(task => dispatch({ type: CREATE_TASK_SUCCESS, payload: task }))
     .then(() => dispatch(getTasks()))
     .catch(error => dispatch({ type: CREATE_TASK_ERROR, payload: error }))

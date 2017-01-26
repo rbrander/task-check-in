@@ -77,8 +77,8 @@ const Calendar = ({month, year}) => {
 };
 
 Calendar.propTypes = {
-  month: React.PropTypes.string.isRequired, // value is between 1 and 12
-  year: React.PropTypes.string.isRequired,
+  month: React.PropTypes.number.isRequired, // value is between 1 and 12
+  year: React.PropTypes.number.isRequired,
 };
 
 export default Calendar;

@@ -5,6 +5,7 @@ import TaskActions from '../actions/tasks';
 
 const mapStateToProps = (state) => ({
   hasError: !!state.Tasks.error,
+  newTask: state.Tasks.newTask,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -15,6 +16,13 @@ class TaskCreatePage extends React.Component {
   static propTypes = {
     hasError: React.PropTypes.bool.isRequired,
     createTask: React.PropTypes.func.isRequired,
+    newTask: React.PropTypes.object.isRequired,
+  }
+  componentWillReceiveProps(nextProps) {
+    // Redirect user to the task list upon successful creation of a new task
+    if (this.props.newTask === {} && nextProps.newTask !== {}) {
+      this.props.router.push('/tasks');
+    }
   }
   render() {
     const { createTask, hasError } = this.props;
