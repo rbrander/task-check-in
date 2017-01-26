@@ -1,3 +1,3 @@
 // index.js -- for any odd constants
 
-const DECIMAL_RADIX = 10;
+export const DECIMAL_RADIX = 10;

@@ -1,8 +1,15 @@
 import React from 'react';
+import { DECIMAL_RADIX } from '../constants';
 
 const Calendar = ({month, year}) => {
   // make a date object for the first day of the given month/year
   const date = new Date(year, month - 1, 1);
+  const today = new Date();
+  const isTodayVisible = (
+    (today.getMonth() === date.getMonth()) &&
+    (today.getFullYear() === date.getFullYear())
+  );
+  console.log('isTodayVisible =', isTodayVisible, today.getDate());
 
   // get the day of the week for the first day of the month
   const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday ... 6 = Saturday
@@ -57,9 +64,12 @@ const Calendar = ({month, year}) => {
                         ((weekIdx === weeks.length - 1) && (dayIdx > firstBlankDayIdx))
                       );
                       const border = (hasNoBorder ? '' : ' bl');
-                      const bgColour = (day === '  ' ? ' bg-light-gray' : ' bg-white');
+                      const bgColour = (day === '  ' ? ' bg-light-gray' :
+                        (isTodayVisible && parseInt(day, DECIMAL_RADIX) === today.getDate() ? 
+                          ' bg-light-yellow' :' bg-white')
+                      );
                       return (
-                        <div key={weekIdx + ':' + dayIdx} style={{width: `${pctWidth}%`}} 
+                        <div key={weekIdx + ':' + dayIdx} style={{width: `${pctWidth}%`}}
                              className={'flex items-center justify-center' + bgColour + border}>
                           { day }
                         </div>

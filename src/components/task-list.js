@@ -1,9 +1,10 @@
 import React from 'react';
 import TaskListItem from './task-list-item';
+import './task-list.css';
 
 const TaskList = ({ tasks }) => (
   <div className="mv3 pa2 dib tl">
-    <table cellSpacing="5">
+    <table cellPadding="10" cellSpacing="0">
       <thead>
         <tr>
           <th>Name</th>

@@ -3,7 +3,11 @@ import { Link } from 'react-router';
 
 const TaskListItem = ({ task }) => (
   <tr data-id={ task.id }>
-    <td><Link to={`/task/view/${task._id}`}>{ task.name }</Link></td>
+    <td>
+      <Link to={`/task/view/${task._id}`} className="no-underline black">
+        { task.name }
+      </Link>
+    </td>
     <td>{ task.description }</td>
     <td>{ task.progress }</td>
     <td>{ task.startDate }</td>
