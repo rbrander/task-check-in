@@ -4,7 +4,7 @@ import AuthActions from '../actions/auth';
 import LoginForm from '../components/login-form';
 
 const mapStateToProps = (state) => ({
-  hasError: !!state.User.error,
+  hasError: !!state.User.loginError,
 });
 
 const mapDispatchToProps = (dispatch) => ({

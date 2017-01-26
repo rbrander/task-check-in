@@ -26,7 +26,7 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
             )
           )
         }
-        <span> | </span>
+        <span> :: </span>
         { isLoggedIn ? (
             <button
               style={{ background: 'transparent', border: 'none', padding: 0 }}
