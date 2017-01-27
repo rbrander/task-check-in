@@ -21,11 +21,10 @@ import 'tachyons';
 
 
 const logger = createLogger();
-const store = createStore(rootReducer, 
-  (process.env.NODE_ENV === 'development' ? 
+const store = createStore(rootReducer,
+  (process.env.NODE_ENV === 'development' ?
     applyMiddleware(logger, reduxThunk) :
-    applyMiddleware(logger, reduxThunk)
-    // applyMiddleware(reduxThunk)
+    applyMiddleware(reduxThunk)
   )
 );
 
