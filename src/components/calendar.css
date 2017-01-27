@@ -1,0 +1,6 @@
+.completed {
+  background-image: url(/checkmark.svg);
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+}

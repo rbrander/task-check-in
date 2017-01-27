@@ -1,5 +1,6 @@
 import React from 'react';
 import { DECIMAL_RADIX } from '../constants';
+import './calendar.css';
 
 const Calendar = ({ month, year, completedDays }) => {
   // make a date object for the first day of the given month/year
@@ -41,8 +42,8 @@ const Calendar = ({ month, year, completedDays }) => {
 
   // Rendering
   // Calculate the percentage of the width each day will hold
-  var pctWidth = (100 / DAYS_IN_WEEK);
-  var weekHeight = (pctWidth / 2) + 'vw';
+  const pctWidth = (100 / DAYS_IN_WEEK);
+  const weekHeight = (pctWidth / 2) + 'vw';
   return (
     <div className="flex items-center justify-center">
       <div>
@@ -67,12 +68,21 @@ const Calendar = ({ month, year, completedDays }) => {
                       const bgColour = (day === '  ' ? ' bg-light-gray' :
                         (isToday ? ' bg-light-yellow' :' bg-white')
                       );
+                      const onClick = isToday ? (e) => {
+                        console.log('clicked');
+                      } : () => {};
+                      const completed = (isToday ? ' completed' : '');
                       return (
-                        <div key={weekIdx + ':' + dayIdx} style={{width: `${pctWidth}%`}}
-                             className={'flex items-center justify-center' + bgColour + border}
-                            >
-                          { day }
-                        </div>
+                        <div  key={weekIdx + ':' + dayIdx}
+                              style={{width: `${pctWidth}%`}}
+                              onClick={onClick}
+                              className={
+                                'flex items-center justify-center' +
+                                bgColour +
+                                border +
+                                completed
+                              }
+                        >{ day }</div>
                       );
                     })
                   }

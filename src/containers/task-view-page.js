@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Calendar from '../components/calendar';
+import TaskActions from '../actions/tasks';
 
 const mapStateToProps = (state) => ({
   tasks: state.Tasks.list,
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  addCompletion: (task_id, date) => dispatch(TaskActions.addCompletion(task_id, date)),
 });
 
 class TaskViewPage extends React.Component {
   static propTypes = {
     tasks: React.PropTypes.array.isRequired,
+    addCompletion: React.PropTypes.func.isRequired,
   }
 
   render() {

@@ -23,7 +23,7 @@ const User = mongoose.model('User', new mongoose.Schema({
   id: mongoose.Schema.ObjectId,
   name: String,
   email: { type: String, unique: true },
-  password: String
+  password: String,
 }), 'users');
 
 const Task = mongoose.model('Task', new mongoose.Schema({
@@ -34,7 +34,8 @@ const Task = mongoose.model('Task', new mongoose.Schema({
   progress: String,
   startDate: Date,
   endDate: Date,
-  goal: Number
+  goal: Number,
+  completions: Array,
 }), 'tasks');
 
 
@@ -158,6 +159,33 @@ app.post('/api/task/create', (req, res) => {
       res.sendStatus(500);
     } else {
       res.json(newTask);
+    }
+  });
+});
+
+app.post('/api/task/completed', (req, res) => {
+  // TODO: verify user is logged in
+  // TODO: check if the current session user is the owner of the task
+  Task.findOne({ _id: req.body.task_id }, (err, task) => {
+    if (err) {
+      console.error('Error finding task!', err)
+      res.sendStatus(500);
+    } else if (!task) {
+      res.sendStatus(404);
+    } else {
+      task.completions = (task.completions || []).concat(req.body.date);
+      task.save((err, task, numAffected) => {
+        if (err) {
+          console.error('Error saving task', err);
+          res.sendStatus(500);
+        } else if (numAffected === 0) {
+          console.error('Task did NOT update!');
+          res.sendStatus(500);
+        } else {
+          // assume success
+          res.json(task);
+        }
+      });
     }
   });
 });
