@@ -5,7 +5,7 @@ import AuthActions from '../actions/auth';
 
 const mapStateToProps = (state) => ({
   userName: state.User.name,
-  isLoggedIn: (state.User.name !== null && state.User.name.length > 0),
+  isLoggedIn: (state.User._id !== null && state.User._id.length > 0),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 class App extends React.Component {
   static propTypes = {
-    userName: React.PropTypes.string, // TODO: convert this to email
+    userName: React.PropTypes.string,
     isLoggedIn: React.PropTypes.bool.isRequired,
     logout: React.PropTypes.func.isRequired,
     children: React.PropTypes.node,

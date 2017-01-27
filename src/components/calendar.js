@@ -34,12 +34,10 @@ const Calendar = ({ month, year, completedDays }) => {
     weeks.push(row);
   }
 
-  // print the calendar in the console
   const monthName = date.toDateString().split(' ')[1];
-  /*
-  console.log('Calendar for ' + monthName +' ' + year);
-  weeks.forEach(week => console.log(week.join(' ')));
-  */
+  // print the calendar in the console
+  // console.log('Calendar for ' + monthName +' ' + year);
+  // weeks.forEach(week => console.log(week.join(' ')));
 
   // Rendering
   // Calculate the percentage of the width each day will hold
@@ -65,13 +63,14 @@ const Calendar = ({ month, year, completedDays }) => {
                         ((weekIdx === weeks.length - 1) && (dayIdx > firstBlankDayIdx))
                       );
                       const border = (hasNoBorder ? '' : ' bl');
+                      const isToday = (isTodayVisible && parseInt(day, DECIMAL_RADIX) === today.getDate());
                       const bgColour = (day === '  ' ? ' bg-light-gray' :
-                        (isTodayVisible && parseInt(day, DECIMAL_RADIX) === today.getDate() ? 
-                          ' bg-light-yellow' :' bg-white')
+                        (isToday ? ' bg-light-yellow' :' bg-white')
                       );
                       return (
                         <div key={weekIdx + ':' + dayIdx} style={{width: `${pctWidth}%`}}
-                             className={'flex items-center justify-center' + bgColour + border}>
+                             className={'flex items-center justify-center' + bgColour + border}
+                            >
                           { day }
                         </div>
                       );

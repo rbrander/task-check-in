@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
-// const sessions = require('client-sessions');
+const sessions = require('client-sessions');
 
 ////////////////////////////////////////////////////
 // Database
@@ -43,18 +43,31 @@ const Task = mongoose.model('Task', new mongoose.Schema({
 
 app.use(express.static('./build'));
 app.use(bodyParser.json());
-
-/*
 app.use(sessions({
   cookieName: 'session',
   secret: 'u@h32jk1isy%aSK9hisjIKJ2USlksui;wewjk;as;J3o;j2ioji9i22',
   duration: 30 * 60 * 1000, // half hour in milliseconds
   actionDuration: 5 * 60 * 1000, // 5 minutes in milliseconds
-}))
-*/
+}));
+app.use((req, res, next) => {
+  if (req.session && req.session.user) {
+    User.findOne({ email: req.session.user.email }, function(err, user) {
+      if (user) {
+        req.user = user;
+        delete req.user.password; // delete the password from the session
+        req.session.user = user;  //refresh the session value
+      }
+      // finishing processing the middleware and run the route
+      next();
+    });
+  } else {
+    next();
+  }
+});
 
 
-
+////////////////////////////////////////////////////
+// Routes
 
 app.post('/api/signup', (req, res) => {
   // Check if the user exists (by email)
@@ -93,38 +106,6 @@ app.post('/api/signup', (req, res) => {
   });
 });
 
-/*
-const checkSession = (req, res) => {
-  if (req.session && req.session.user) {
-    User.findOne({ email: req.session.user.email }, function (err, user) {
-      if (!user) {
-        req.session.reset();
-        res.redirect('/login');
-      } else {
-        // user session is valid
-
-      }
-    })
-  } else res.redirect('/login');
-}
-
-
-app.post('/api/login', (req, res) => {
-  User.findOne({ email: req.body.email}, function(err, user) {
-    if (!user) {
-      res.sendStatus(404);
-    } else {
-      if (user.password === reqbody.password) {
-        req.session.user = user; // save the user object in the session
-        res.redirect('/home');
-      } else
-        res.sendStatus(401);
-    }
-  })
-});
-
-*/
-
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   User.findOne({ email }, (err, user) => {
@@ -135,6 +116,7 @@ app.post('/api/login', (req, res) => {
     } else {
       // Now that we have a user record, check the password
       if (bcrypt.compareSync(password, user.password)) {
+        req.session.user = user;
         // remove the password before sending
         let clonedUser = JSON.parse(JSON.stringify(user));
         delete clonedUser.password;
@@ -149,18 +131,14 @@ app.post('/api/login', (req, res) => {
   });
 });
 
-
 app.get('/api/logout', (req, res) => {
-  /*
   if (res.session)
     res.session.reset();
-  */
-  res.redirect('/');
+  res.json({});
 });
 
 app.get('/api/tasks', (req, res) => {
-  // TODO: add a filter for userid
-  Task.find({ owner_id: req.query.owner_id }, function(err, taskList) {
+  Task.find({ owner_id: req.session.user._id }, function(err, taskList) {
     if (err) {
       console.error('Task find Error: ', err);
       res.sendStatus(500);

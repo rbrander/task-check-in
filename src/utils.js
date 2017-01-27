@@ -3,6 +3,7 @@
 export const apiGet = (url) =>
   fetch(url, {
     method: 'GET',
+    credentials: 'same-origin',
     headers: new Headers({ 'Accept': 'application/json' })
   }).then(response => {
     if (response.status < 400) {
@@ -15,8 +16,8 @@ export const apiGet = (url) =>
 export const apiPost = (url, jsonData) => {
   return fetch(url, {
     method: 'POST',
-    redirect: 'follow',
     body: JSON.stringify(jsonData),
+    credentials: 'same-origin',
     headers: new Headers({
       'Accept': 'application/json',
       'Content-Type': 'application/json',

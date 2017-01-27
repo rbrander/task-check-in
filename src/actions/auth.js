@@ -1,13 +1,15 @@
 import {
+  SIGNUP_PENDING,
+  SIGNUP_SUCCESS,
+  SIGNUP_ERROR,
   LOGIN_USER_PENDING,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
-  LOGOUT_USER,
-  SIGNUP_PENDING,
-  SIGNUP_SUCCESS,
-  SIGNUP_ERROR
+  LOGOUT_USER_PENDING,
+  LOGOUT_USER_SUCCESS,
+  LOGOUT_USER_ERROR
 } from '../constants/action-types';
-import { apiPost } from '../utils';
+import { apiGet, apiPost } from '../utils';
 
 const login = (email, password) => (dispatch) => {
   dispatch({ type: LOGIN_USER_PENDING });
@@ -24,7 +26,12 @@ const login = (email, password) => (dispatch) => {
     });
 };
 
-const logout = () => ({ type: LOGOUT_USER });
+const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT_USER_PENDING });
+  apiGet('/api/logout')
+    .then(() => dispatch({ type: LOGOUT_USER_SUCCESS }))
+    .catch(error => dispatch({ type: LOGOUT_USER_ERROR, payload: error }));
+};
 
 const signup = (name, email, password) => (dispatch) => {
   dispatch({ type: SIGNUP_PENDING });
