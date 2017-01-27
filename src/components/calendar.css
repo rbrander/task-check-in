@@ -4,3 +4,8 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.day {
+  width: 100%;
+  height: 100%;
+}
