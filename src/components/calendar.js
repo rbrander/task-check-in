@@ -1,8 +1,9 @@
 import React from 'react';
 import CalendarDay from './calendar-day';
+import { DAYS_IN_WEEK } from '../constants';
 import './calendar.css';
 
-const Calendar = ({ month, year, completedDays }) => {
+const Calendar = ({ month, year, completions }) => {
   // make a date object for the first day of the given month/year
   const date = new Date(year, month - 1, 1);
   const monthName = date.toDateString().split(' ')[1];
@@ -13,8 +14,13 @@ const Calendar = ({ month, year, completedDays }) => {
   // get the number of days in the month
   const numberOfDaysInMonth = new Date(year, month, 0).getDate();
 
+  // filter out any completions that are not in this month
+  const completionsInMonth = completions.filter(completedDate => (
+    (completedDate.getFullYear() === year) &&
+    (completedDate.getMonth() === (month - 1))
+  ));
+
   // calculate number of rows?
-  const DAYS_IN_WEEK = 7;
   const numWeeks = Math.ceil((dayOfWeek + numberOfDaysInMonth) / DAYS_IN_WEEK);
   const weeks = [];
 
@@ -24,8 +30,12 @@ const Calendar = ({ month, year, completedDays }) => {
     for (let day = 0; day < DAYS_IN_WEEK; day++) {
       const date = (week * 7) + day - dayOfWeek + 1;
       const isBlank = (date < 1) || (date > numberOfDaysInMonth)
+      const hasCompleted = completionsInMonth
+        .some(completedDate => completedDate.getDate() === date);
+      const isCompleted = !isBlank && hasCompleted;
       row.push({
         isBlank,
+        isCompleted,
         date: new Date(year, month - 1, date),
       });
     }
@@ -65,7 +75,7 @@ const Calendar = ({ month, year, completedDays }) => {
                         >{  day.isBlank ? null : (
                               <CalendarDay
                                 date={ day.date }
-                                isCompleted={ false /* TODO */ }
+                                isCompleted={ day.isCompleted }
                                 onClick={ () => {} }
                               />
                             )
@@ -87,7 +97,7 @@ const Calendar = ({ month, year, completedDays }) => {
 Calendar.propTypes = {
   month: React.PropTypes.number.isRequired, // value is between 1 and 12
   year: React.PropTypes.number.isRequired,
-  completedDays: React.PropTypes.array,
+  completions: React.PropTypes.array,
 };
 
 export default Calendar;

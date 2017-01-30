@@ -4,43 +4,67 @@ import Calendar from '../components/calendar';
 import TaskActions from '../actions/tasks';
 
 const mapStateToProps = (state) => ({
-  tasks: state.Tasks.list,
+  tasks: state.Tasks.list,  // used for mergeProps only
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addCompletion: (task_id, date) => dispatch(TaskActions.addCompletion(task_id, date)),
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...dispatchProps,
+  task: stateProps.tasks
+    // Find the task by ID
+    .filter(task => (task._id === ownProps.routeParams.id))
+    // Convert each of the completion date strings into date objects
+    .map(task => Object.assign({}, task, {
+      completions: task.completions.map(dateStr => new Date(Date.parse(dateStr)))
+    }))
+    // Return only the first record
+    .shift(),
+});
+
 class TaskViewPage extends React.Component {
   static propTypes = {
-    tasks: React.PropTypes.array.isRequired,
+    task: React.PropTypes.object.isRequired,
     addCompletion: React.PropTypes.func.isRequired,
   }
 
-  render() {
-    const { routeParams: { id }, tasks } = this.props;
-    const foundTask = tasks.filter(task => task._id === id);
-    if (foundTask.length === 0) {
-      return (<div className="red">Error finding task</div>);
+  componentWillMount() {
+    // Redirect to task list if task is not found
+    if (this.props.task === undefined) {
+      this.props.router.push('/tasks');
     }
-    const task = foundTask[0];
+  }
+
+  render() {
+    const { task } = this.props;
     const now = new Date();
     const currMonth = now.getMonth() + 1;
     const currYear = now.getFullYear();
     return (
       <div className="tc dib">
         <div className="f2 pa3">{ task.name }</div>
-        <Calendar month={ currMonth } year={ currYear } />
+        <Calendar month={ currMonth } year={ currYear } completions={ task.completions } />
         <div className="tl mv4">
           <div><strong>Name:</strong> { task.name }</div>
           <div><strong>Description:</strong> { task.description }</div>
           <div><strong>Progress:</strong> { task.progress }</div>
           <div><strong>Start Date:</strong> { task.startDate }</div>
           <div><strong>End Date:</strong> { task.endDate }</div>
+          <div><strong>Completions:</strong>
+            <ul>{task.completions.map(date => (
+              <li key={ date.valueOf() }>
+                { date.toString() }
+              </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskViewPage);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(TaskViewPage);

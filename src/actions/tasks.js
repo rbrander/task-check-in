@@ -28,7 +28,7 @@ const getTasks = () => (dispatch, getState) => {
               startDate: '2017-01-01',
               endDate: '2017-12-31',
               goal: '30 days',
-              completions: [],
+              completions: [ '2017-01-26T00:00:00.000Z' ],
             },
             {
               _id: '2',
@@ -49,7 +49,7 @@ const getTasks = () => (dispatch, getState) => {
 
 const addCompletion = (task_id, date) => (dispatch) => {
   dispatch({ type: ADD_TASK_COMPLETION_PENDING });
-  apiPost('/api/task/completed', { task_id, date })
+  apiPost('/api/task/completed', { task_id, date: date.toISOString() })
     .then(task => dispatch({ type: ADD_TASK_COMPLETION_SUCCESS, payload: task }))
     .catch(error => dispatch({ type: ADD_TASK_COMPLETION_ERROR, payload: error }))
 }
