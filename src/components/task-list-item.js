@@ -8,10 +8,11 @@ const TaskListItem = ({ task }) => (
         { task.name }
       </Link>
     </td>
-    <td>{ task.description }</td>
+    <td className="dn dtc-l">{ task.description }</td>
     <td>{ task.progress }</td>
-    <td>{ task.startDate }</td>
-    <td>{ task.endDate }</td>
+    <td className="dn dtc-ns">{ task.startDate }</td>
+    <td className="dn dtc-ns">{ task.endDate }</td>
+    <td className="dn dtc-ns">{ task.goal }</td>
     <td>{ task.lastUpdated }</td>
   </tr>
 );

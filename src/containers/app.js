@@ -55,7 +55,7 @@ class App extends React.Component {
           logout={ logout }
           location={ location }
         />
-        <div className="pa2 tc">
+        <div className="pa2 tc mt5">
           { children || defaultContent }
         </div>
       </div>

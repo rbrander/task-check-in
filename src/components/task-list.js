@@ -3,15 +3,16 @@ import TaskListItem from './task-list-item';
 import './task-list.css';
 
 const TaskList = ({ tasks }) => (
-  <div className="mv3 pa2 dib tl">
+  <div className="mv3 tl flex justify-center">
     <table cellPadding="10" cellSpacing="0">
       <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th>
+          <th className="dn dtc-l">Description</th>
           <th>Progress</th>
-          <th>Start Date</th>
-          <th>End Date</th>
+          <th className="dn dtc-ns">Start Date</th>
+          <th className="dn dtc-ns">End Date</th>
+          <th className="dn dtc-ns">Goal</th>
           <th>Last Updated</th>
         </tr>
       </thead>

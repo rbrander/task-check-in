@@ -16,8 +16,8 @@ import reduxThunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import rootReducer from './reducers';
 
-import './index.css';
 import 'tachyons';
+import './index.css';
 
 
 const logger = createLogger();

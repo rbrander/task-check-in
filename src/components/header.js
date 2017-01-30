@@ -1,20 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+const listItemClassName = 'ml2 br2 bg-lightest-blue grow pointer pv2';
+const listItemAnchorClassName = 'dim pv2 ph3 black-80 link';
+
 const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
-  <div className="bg-light-blue cf shadow-5 mb3 bb b--light-silver h3">
-    <div className="f3 fl ma2">
+  <div className="bg-light-blue shadow-5 bb b--light-silver flex space-between items-center pa3 flex-column flex-row-ns fixed top-0 left-0 right-0">
+    <div className="f3">
       <Link to="/" className="no-underline black">Task Check-in</Link>
     </div>
+    <div className="f4 flex-auto ph2">
     { isLoggedIn ? (
-      <div className="ml4 fl f4">
-        <ul className="list mt0">
-          <li className="fl pa2 ma1 ba"><Link to="/tasks" className="no-underline black">Tasks</Link></li>
-          <li className="fl pa2 ma1 ba"><Link to="/task/create" className="no-underline black">New Task</Link></li>
+        <ul className="list mv0 flex flex-row">
+          <li className={ listItemClassName }>
+            <Link to="/tasks" className={ listItemAnchorClassName }>Tasks</Link>
+          </li>
+          <li className={ listItemClassName }>
+            <Link to="/task/create" className={ listItemAnchorClassName }>New Task</Link>
+          </li>
         </ul>
-      </div>) : null
+      ) : null
     }
-    <div className="f6 fr ma3">
+    </div>
+    <div className="f6">
       <span>
         { isLoggedIn ? (
             <span>Hello, { userName }</span>
