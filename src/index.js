@@ -19,7 +19,6 @@ import rootReducer from './reducers';
 import 'tachyons';
 import './index.css';
 
-
 const logger = createLogger();
 const store = createStore(rootReducer,
   (process.env.NODE_ENV === 'development' ?

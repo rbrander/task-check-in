@@ -26,7 +26,7 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
       ) : null
     }
     </div>
-    <div className="f6">
+    <div className="f5">
       <span>
         { isLoggedIn ? (
             <span>Hello, { userName }</span>
@@ -41,9 +41,9 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
         <span> :: </span>
         { isLoggedIn ? (
             <button
-              style={{ background: 'transparent', border: 'none', padding: 0 }}
+              className="f5 pointer bn pa0 outline-0 bg-light-blue"
               type="button"
-              onClick={() => logout()}
+              onClick={() => { logout() }}
             >Logout</button>
           ) : (
             <Link to="/signup" className="no-underline black">Sign Up</Link>
