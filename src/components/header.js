@@ -12,12 +12,16 @@ const Header = ({ location: { pathname }, userName, isLoggedIn, logout }) => (
     <div className="f4 flex-auto ph2">
     { isLoggedIn ? (
         <ul className="list mv0 flex flex-row">
-          <li className={ listItemClassName }>
-            <Link to="/tasks" className={ listItemAnchorClassName }>Tasks</Link>
-          </li>
-          <li className={ listItemClassName }>
-            <Link to="/task/create" className={ listItemAnchorClassName }>New Task</Link>
-          </li>
+          { pathname !== '/tasks' ? (
+            <li className={ listItemClassName }>
+              <Link to="/tasks" className={ listItemAnchorClassName }>Tasks</Link>
+            </li>
+          ) : null }
+          { pathname === '/tasks' ? (
+            <li className={ listItemClassName }>
+              <Link to="/task/create" className={ listItemAnchorClassName }>New Task</Link>
+            </li>
+          ) : null }
         </ul>
       ) : null
     }
