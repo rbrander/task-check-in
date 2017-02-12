@@ -10,7 +10,7 @@ import {
   ADD_TASK_COMPLETION_ERROR,
 } from '../constants/action-types';
 import { apiGet, apiPost } from '../utils';
-import { mockTasks } from '../constants/mock';
+import { mockTasks, mockNewTask } from '../constants/mock';
 
 const getTasks = () => (dispatch, getState) => {
   dispatch({ type: GET_TASKS_PENDING });
@@ -28,7 +28,7 @@ const addCompletion = (task_id, date) => (dispatch) => {
   dispatch({ type: ADD_TASK_COMPLETION_PENDING });
   apiPost('/api/task/completed', { task_id, date: date.toISOString() })
     .then(task => dispatch({ type: ADD_TASK_COMPLETION_SUCCESS, payload: task }))
-    .catch(error => dispatch({ type: ADD_TASK_COMPLETION_ERROR, payload: error }))
+    .catch(error => dispatch({ type: ADD_TASK_COMPLETION_ERROR, payload: error }));
 }
 
 const createTask = (task) => (dispatch, getState) => {
@@ -38,13 +38,11 @@ const createTask = (task) => (dispatch, getState) => {
     .then(task => dispatch({ type: CREATE_TASK_SUCCESS, payload: task }))
     .catch(error => {
       if (process.env.NODE_ENV === 'development') {
-        return dispatch({ type: CREATE_TASK_SUCCESS, payload: {
-          _id: ~~(Math.random() * 999) + 5, name: 'booga'
-        } });
+        return dispatch({ type: CREATE_TASK_SUCCESS, payload: mockNewTask });
       } else {
         return dispatch({ type: CREATE_TASK_ERROR, payload: error });
       }
-    })
+    });
 }
 
 export default {

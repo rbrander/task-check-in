@@ -10,6 +10,7 @@ import {
   LOGOUT_USER_ERROR
 } from '../constants/action-types';
 import { apiGet, apiPost } from '../utils';
+import { mockUser } from '../constants/mock';
 
 const login = (email, password) => (dispatch) => {
   dispatch({ type: LOGIN_USER_PENDING });
@@ -17,10 +18,7 @@ const login = (email, password) => (dispatch) => {
     .then(userProfile => dispatch({ type: LOGIN_USER_SUCCESS, payload: userProfile }))
     .catch(error => {
       if (process.env.NODE_ENV === 'development')
-        dispatch({
-          type: LOGIN_USER_SUCCESS,
-          payload: { _id: 'aN0nYM0us', name: 'Anonymous', email: 'an@an.an' },
-        });
+        dispatch({ type: LOGIN_USER_SUCCESS, payload: mockUser });
       else
         dispatch({ type: LOGIN_USER_ERROR, payload: error });
     });

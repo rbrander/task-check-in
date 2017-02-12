@@ -1,3 +1,20 @@
+export const mockUser = {
+  "_id":"588a1f3a98d7ad5a229e0793",
+  "name":"Anonymous",
+  "email":"an@an.an"
+};
+
+export const mockNewTask = {
+  "_id":"58a0c7d041d3317ece53ed10",
+  "name":"a new mock test",
+  "description":"this is a sample description",
+  "progress":"not yet started",
+  "startDate":"2017-02-12T00:00:00.000Z",
+  "endDate":null,
+  "owner_id":"588a1f3a98d7ad5a229e0793",
+  "completions":[]
+};
+
 export const mockTasks = [
   {
     "_id":"588a8509dc63a48d94a179ed",
