@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import Calendar from '../components/calendar';
 import TaskActions from '../actions/tasks';
 
@@ -45,7 +46,10 @@ class TaskViewPage extends React.Component {
     const currYear = now.getFullYear();
     return (
       <div className="tc dib">
-        <div className="f2 pa3">{ task.name }</div>
+        <div className="mt3 tl f6">
+          <Link to="/tasks" className="link black">{ '\u25c4 Back to task list' }</Link>
+        </div>
+        <div className="f2 pb3">{ task.name }</div>
         <Calendar month={ currMonth } year={ currYear } completions={ task.completions } />
         <div className="tl mv4">
           <div><strong>Name:</strong> { task.name }</div>
