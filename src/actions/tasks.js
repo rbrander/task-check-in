@@ -10,38 +10,15 @@ import {
   ADD_TASK_COMPLETION_ERROR,
 } from '../constants/action-types';
 import { apiGet, apiPost } from '../utils';
+import { mockTasks } from '../constants/mock';
 
 const getTasks = () => (dispatch, getState) => {
   dispatch({ type: GET_TASKS_PENDING });
   apiGet('/api/tasks?owner_id=' + getState().User._id)
-    .then(tasks => dispatch({ type: GET_TASKS_SUCCESS, payload: tasks }))
+    .then(tasks => { dispatch({ type: GET_TASKS_SUCCESS, payload: tasks }); })
     .catch(error => {
       if (process.env.NODE_ENV === 'development')
-        dispatch({
-          type: GET_TASKS_SUCCESS,
-          payload: [
-            {
-              _id: '1',
-              name: 'My first task',
-              description: '...and then there was one.',
-              progress: 'not yet started',
-              startDate: '2017-01-01',
-              endDate: '2017-12-31',
-              goal: '30 days',
-              completions: [ '2017-01-26T00:00:00.000Z' ],
-            },
-            {
-              _id: '2',
-              name: 'My second task',
-              description: 'blah blah blah',
-              progress: 'not yet started',
-              startDate: '2017-01-01',
-              endDate: '2018-12-31',
-              goal: '60 days',
-              completions: ['2017-01-26T00:00:00.000Z'],
-            },
-          ],
-        });
+        dispatch({ type: GET_TASKS_SUCCESS, payload: mockTasks });
       else
         dispatch({ type: GET_TASKS_ERROR, payload: error })
     });

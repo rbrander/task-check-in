@@ -6,7 +6,7 @@ const TaskList = ({ tasks }) => (
   <div className="mv3 tl flex justify-center">
     <table cellPadding="10" cellSpacing="0">
       <thead>
-        <tr>
+        <tr className="bg-lightest-blue">
           <th>Name</th>
           <th className="dn dtc-l">Description</th>
           <th>Progress</th>
