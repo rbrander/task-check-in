@@ -3,7 +3,7 @@ import CalendarDay from './calendar-day';
 import { DAYS_IN_WEEK } from '../constants';
 import './calendar.css';
 
-const Calendar = ({ month, year, completions }) => {
+const Calendar = ({ month, year, completions, onDayClick }) => {
   // make a date object for the first day of the given month/year
   const date = new Date(year, month - 1, 1);
   const monthName = date.toDateString().split(' ')[1];
@@ -76,7 +76,7 @@ const Calendar = ({ month, year, completions }) => {
                               <CalendarDay
                                 date={ day.date }
                                 isCompleted={ day.isCompleted }
-                                onClick={ () => {} }
+                                onClick={ (e) => { onDayClick(e, day.date); } }
                               />
                             )
                           }
@@ -98,6 +98,7 @@ Calendar.propTypes = {
   month: React.PropTypes.number.isRequired, // value is between 1 and 12
   year: React.PropTypes.number.isRequired,
   completions: React.PropTypes.array,
+  onDayClick: React.PropTypes.func,
 };
 
 export default Calendar;

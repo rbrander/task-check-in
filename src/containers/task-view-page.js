@@ -39,6 +39,11 @@ class TaskViewPage extends React.Component {
     }
   }
 
+  onDayClick = (e, date) => {
+    const { task, addCompletion } = this.props;
+    addCompletion(task._id, date);
+  }
+
   render() {
     const { task } = this.props;
     const now = new Date();
@@ -50,7 +55,12 @@ class TaskViewPage extends React.Component {
           <Link to="/tasks" className="link black">{ '\u25c4 Back to task list' }</Link>
         </div>
         <div className="f2 pb3">{ task.name }</div>
-        <Calendar month={ currMonth } year={ currYear } completions={ task.completions } />
+        <Calendar
+          month={ currMonth }
+          year={ currYear }
+          completions={ task.completions }
+          onDayClick={ this.onDayClick }
+        />
         <div className="tl mv4">
           <div><strong>Name:</strong> { task.name }</div>
           <div><strong>Description:</strong> { task.description }</div>
