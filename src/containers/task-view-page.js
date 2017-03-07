@@ -41,7 +41,10 @@ class TaskViewPage extends React.Component {
 
   onDayClick = (e, date) => {
     const { task, addCompletion } = this.props;
-    addCompletion(task._id, date);
+    const today = Date.now();
+    if (date.valueOf() < today.valueOf()) {
+      addCompletion(task._id, date);
+    }
   }
 
   render() {
@@ -60,6 +63,7 @@ class TaskViewPage extends React.Component {
           year={ currYear }
           completions={ task.completions }
           onDayClick={ this.onDayClick }
+          isDayClickable={ (date) => date.valueOf() < now.valueOf() }
         />
         <div className="tl mv4">
           <div><strong>Name:</strong> { task.name }</div>

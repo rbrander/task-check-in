@@ -7,9 +7,15 @@ const CalendarDay = ({ date, isCompleted, onClick }) => {
   const bgColour = (isToday ? 'bg-light-yellow' :'bg-white');
   const completed = (isCompleted ? 'completed' : '');
   const pointer = (onClick ? 'pointer' : '');
-  const className = `day ${ baseCSS } ${ bgColour } ${ completed } ${ pointer }`;
   return (
-    <div className={ className } onClick={ onClick } >
+    <div
+      className={ `day ${ baseCSS } ${ bgColour } ${ completed } ${ pointer }` }
+      onClick={ (e) => {
+        if (onClick) {
+          onClick(e, date);
+        }
+      } }
+    >
       { date.getDate() }
     </div>
   );

@@ -3,7 +3,7 @@ import CalendarDay from './calendar-day';
 import { DAYS_IN_WEEK } from '../constants';
 import './calendar.css';
 
-const Calendar = ({ month, year, completions, onDayClick }) => {
+const Calendar = ({ month, year, completions, onDayClick, isDayClickable }) => {
   // make a date object for the first day of the given month/year
   const date = new Date(year, month - 1, 1);
   const monthName = date.toDateString().split(' ')[1];
@@ -46,6 +46,9 @@ const Calendar = ({ month, year, completions, onDayClick }) => {
   // Calculate the percentage of the width each day will hold
   const pctWidth = (100 / DAYS_IN_WEEK);
   const weekHeight = (pctWidth / 2) + 'vw';
+
+  const onClick = date =>
+    ((onDayClick && (!isDayClickable || isDayClickable(date))) ? onDayClick : null);
   return (
     <div className="flex items-center justify-center">
       <div>
@@ -76,7 +79,7 @@ const Calendar = ({ month, year, completions, onDayClick }) => {
                               <CalendarDay
                                 date={ day.date }
                                 isCompleted={ day.isCompleted }
-                                onClick={ (e) => { onDayClick(e, day.date); } }
+                                onClick={ onClick(day.date) }
                               />
                             )
                           }
@@ -99,6 +102,7 @@ Calendar.propTypes = {
   year: React.PropTypes.number.isRequired,
   completions: React.PropTypes.array,
   onDayClick: React.PropTypes.func,
+  isDayClickable: React.PropTypes.func,
 };
 
 export default Calendar;
